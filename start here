@@ -1,0 +1,33 @@
+#Define Variables
+
+$Domain = longdong.local
+
+#Error Handling that doesn't work
+try
+{
+    Connect-VIServer vcsa.longdong.local
+}
+catch
+{
+    Write-Host "Unable to connect at this time, please try again"
+    Write-Host $_
+    Exit
+    }
+
+#actually doing something
+#add user
+$u = Read-Host "Please enter the new users ldap username"
+Write-Output "You said $u ?"
+Write-Output "Okay..."
+
+#associate with the domain
+$User = "$Domain\$u"
+ 
+# Add to Root of vCenter
+$rootFolder = New-Folder -Name $u -Location "Toy Box"
+ 
+# Add resource pool
+$pool = New-ResourcePool -Name $u 
+
+#Add to Basic A$$
+$Perm = New-VIPermission $User -Role "Basic Ass User" -Propagate:$true | Out-Null
